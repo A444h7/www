@@ -18,6 +18,12 @@
             padding: 20px;
             display: flex;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .header .left {
+            display: flex;
+            align-items: center;
         }
 
         .header img {
@@ -47,6 +53,17 @@
             text-decoration: underline;
         }
 
+        /* Share button styling */
+        .share-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
         .top-half {
             background-color: #3944BC;
             color: white;
@@ -73,7 +90,7 @@
         }
 
         .save-contact-btn,
-        .download-btn {
+        .save-page-btn {
             background-color: #28a745;
             color: white;
             padding: 10px 20px;
@@ -86,7 +103,7 @@
         }
 
         .save-contact-btn:hover,
-        .download-btn:hover {
+        .save-page-btn:hover {
             background-color: #218838;
             opacity: 0.7;
         }
@@ -118,14 +135,6 @@
 
         .bottom-half a:hover {
             text-decoration: underline;
-        }
-
-        .bottom-half .telegram, 
-        .bottom-half .whatsapp, 
-        .bottom-half .tiktok, 
-        .bottom-half .snapchat {
-            width: 27.6px;
-            height: 27.6px;
         }
 
         .email-link {
@@ -163,11 +172,16 @@
 </head>
 <body>
 
+    <!-- Header with company logo, name, and Share button -->
     <div class="header">
-        <img src="company-logo.png" alt="MK Logo">
-        <div class="company-name">
-            <a href="#">MK <span class="digital-business-card">Digital Business Card</span></a>
+        <div class="left">
+            <img src="company-logo.png" alt="MK Logo">
+            <div class="company-name">
+                <a href="#">MK <span class="digital-business-card">Digital Business Card</span></a>
+            </div>
         </div>
+        <!-- Share button -->
+        <button class="share-btn" onclick="sharePage()">Share</button>
     </div>
 
     <div class="top-half" id="business-card-content">
@@ -181,8 +195,10 @@
         </a>
 
         <div class="button-container">
-            <a href="data:text/vcard;charset=utf-8,BEGIN:VCARD%0AVERSION:3.0%0AFN:Eyouel Mebratu%0AEMAIL:eyouelmebratuinbox@gmail.com%0ATEL:+251963148584%0AURL:https://a444h7.github.io/Mk-7/%0AEND:VCARD" class="save-contact-btn" download="Eyouel_Mebratu.vcf">Save to Contact</a>
-            <button class="download-btn" onclick="downloadPDF()">Download</button>
+            <!-- Save to Contacts button with updated link -->
+            <a href="data:text/vcard;charset=utf-8,BEGIN:VCARD%0AVERSION:3.0%0AFN:Eyouel Mebratu%0AEMAIL:eyouelmebratuinbox@gmail.com%0ATEL:+251963148584%0AURL:https://your-new-website-link.com%0AEND:VCARD" class="save-contact-btn" download="Eyouel_Mebratu.vcf">Save to Contact</a>
+            <!-- Save button for saving the page to the browser as a shortcut -->
+            <button class="save-page-btn" onclick="savePage()">Save</button>
         </div>
     </div>
 
@@ -213,20 +229,24 @@
         </a>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <!-- JavaScript functions for sharing and saving the page -->
     <script>
-        async function downloadPDF() {
-            const element = document.body; // Include entire body for full-page PDF
+        // Share page function
+        function sharePage() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'MK Digital Business Card',
+                    text: 'Check out this digital business card',
+                    url: window.location.href
+                }).catch((error) => console.log('Error sharing:', error));
+            } else {
+                alert('Sharing is not supported in this browser.');
+            }
+        }
 
-            const options = {
-                margin: 0.5,
-                filename: 'MK_Digital_Business_Card.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true }, // useCORS for external images and link support
-                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-
-            html2pdf().from(element).set(options).save();
+        // Save page as a shortcut function
+        function savePage() {
+            alert('To save this page to your browser, please use your browser’s "Add to Home Screen" feature.');
         }
     </script>
 </body>
